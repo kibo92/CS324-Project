@@ -27,8 +27,13 @@ Route::group(['middleware' => ['cors']], function () {
 	
 Route::group(['middleware' => ['cors','token']], function () {
 	Route::post('api/comment/create', 'BlogController@createComment');
+	Route::post('api/comment/delete', 'BlogController@deleteComment');
 });
 
 Route::group(['middleware' => ['cors','admin','jsonvalidator']], function () {
 	Route::post('api/blogs/create', 'BlogController@create');
+});
+
+Route::group(['middleware' => ['cors','admin']], function(){
+	Route::delete('api/blogs/delete/{blog_id}','BlogController@deleteById');
 });

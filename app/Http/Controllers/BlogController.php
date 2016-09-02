@@ -72,4 +72,19 @@ class BlogController extends Controller
 		->get();
 		return response()->json($result);
 	}
+
+	public function deleteById($blog_id, Request $request){
+		$user = UserController::getUserByToken($request);
+		$blog = DB::table('blogs')->where('id',$blog_id)->first();
+		if(isset($blog) && $blog->user_id == $user->id){
+			DB::table('blogs')->where('id', $blog_id)->delete();
+			return response()->json(['success'=>"Success deletion"],200);
+		}else{
+			return response()->json(['error'=>'Answer does not belong to user'],400);
+		}
+	}
+
+
+	
 }
+
